@@ -40,3 +40,29 @@ fn parse_url(s: &str) -> Result<String>{
 fn parse_kv(s: &str) -> Result<KvPair> {
     s.parse()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_parse_url() -> Result<(), anyhow::Error> {
+        let input = "https://httpbin.org/get";
+        let expected_output = "https://httpbin.org/get".to_string();
+        let result = parse_url(input)?;
+        assert_eq!(result, expected_output);
+        Ok(())
+    }
+
+    #[test]
+    fn test_parse_kv() -> Result<(), anyhow::Error> {
+        let input = "key=value";
+        let expected_output = KvPair {
+            key: "key".to_string(),
+            value: "value".to_string(),
+        };
+        let result = parse_kv(input)?;
+        assert_eq!(result, expected_output);
+        Ok(())
+    }
+}
