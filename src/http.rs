@@ -60,3 +60,40 @@ mod print{
             .and_then(|ct| ct.parse().ok())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::error::Error;
+    
+    #[tokio::test]
+    async fn test_get() -> Result<(), Box<dyn Error>> {
+        // Arrange
+        let url = "http://httpbin.org/get";
+    
+        // Act
+        let result = get(url).await;
+    
+        // Assert
+        assert!(result.is_ok());
+        Ok(())
+    }
+    
+    #[tokio::test]
+    async fn test_post() -> Result<(), Box<dyn Error>> {
+        // Arrange
+        let url = "http://httpbin.org/post";
+        let args = vec![
+            KvPair { key: "foo".to_owned(), value: "bar".to_owned() },
+            KvPair { key: "baz".to_owned(), value: "qux".to_owned() },
+        ];
+    
+        // Act
+        let result = post(url, &args).await;
+    
+        // Assert
+        assert!(result.is_ok());
+        Ok(())
+    }
+    
+}
